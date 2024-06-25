@@ -110,13 +110,8 @@
                 return;
             }
 
-            if (!phoneValidation.test(phone)) {
+            if (!numberValidation.test(phone)) {
                 alert('Phone number must be exactly 10 digits.');
-                return;
-            }
-
-            if (!passwordValidation.test(password)) {
-                alert('Password must be exactly 8 letters.');
                 return;
             }
             
