@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Collection Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color:#6f2da8;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 19vh auto;
+            background-color: white;
+            border-radius:5px;
+        }
+        
+        .form-container h2{
+        	font-size:33px;
+        	text-align:center;
+        	padding-top:20px;
+        	
+        	
+        }
+        
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            padding-left:30px;
+            font-size:18px;
+        }
+        .form-container input {
+            width: 82%;
+            padding:10px 0;
+            margin-left:30px;
+            margin-bottom: 10px;
+            border-left:none;
+            border-right:none;
+            border-top:none;
+            outline: none;
+        }
+        
+        .form-container input:focus {
+            border-bottom:2px solid black;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            margin-left:4.7em;
+            margin-bottom:15px;
+            background-color:#6f2da8;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius:10px;
+            font-size:20px;
+            width:10em;
+        }
+        .form-container button:hover {
+            background-color: #6f2dd5;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        
+        <h2>Lead Collection Form</h2>
+        <form id="leadForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" pattern="\d{10}" required>
+
+            <label for="company">Company Name:</label>
+            <input type="text" id="company" name="company" required>
+
+            <label for="inquiry">Inquiry Details:</label>
+            <input id="inquiry" name="inquiry" required>
+
+            <button type="submit">Submit</button>
+            </form>
+           
+        
+    </div>
+
+    <script>
+        document.getElementById('leadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const company = document.getElementById('company').value;
+            const inquiry = document.getElementById('inquiry').value;
+            
+            if (!name || !email || !phone || !company || !inquiry) {
+                alert('Please fill out all fields.');
+                return;
+            }
+            const emailValidation= /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const numberValidation = /^\d{10}$/;
+
+            if (!emailValidation.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            if (!phoneValidation.test(phone)) {
+                alert('Phone number must be exactly 10 digits.');
+                return;
+            }
+
+            if (!passwordValidation.test(password)) {
+                alert('Password must be exactly 8 letters.');
+                return;
+            }
+            
+            fetch('/leads', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, phone, company, inquiry })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Lead information submitted successfully!');
+                } else {
+                    alert('There was an error submitting your information. Please try again.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
